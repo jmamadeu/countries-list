@@ -5,5 +5,5 @@ interface CountryLabelProps {
 }
 
 export function CountryLabel({countryTotal}: CountryLabelProps) {
-  return <Typography.Text>Total of {countryTotal} countries</Typography.Text>
+  return <Typography.Text data-testid="country-label">Total of {countryTotal} countries</Typography.Text>
 }
