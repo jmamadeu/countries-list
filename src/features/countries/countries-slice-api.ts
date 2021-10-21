@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-interface CountryProperties {
+export interface CountryProperties {
   name: string;
   capital: string;
   languages: string[];
@@ -14,8 +14,20 @@ export const apiSlice = createApi({
   }),
   endpoints(builder) {
     return {
-      fetchCountries: builder.query<CountryProperties, void>({
+      fetchCountries: builder.query<CountryProperties[], void>({
         query: () => '/all',
+        transformResponse: (response: any) => {
+          const parseCountries: CountryProperties[] = response.map(
+            (country: any) => ({
+              capital: country?.capital?.[0],
+              flag: country?.flags.png,
+              name: country?.name?.common,
+              languages: Object.values(country?.languages || {}),
+            })
+          );
+
+          return parseCountries;
+        },
       }),
     };
   },
